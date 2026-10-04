@@ -1,0 +1,25 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: tb-inventory-consumer
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: tb-inventory-group
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.use.type.headers: false
+        spring.json.value.default.type: com.tb.inventory.adapter.in.kafka.PedidoEventPayload
+    listener:
+      concurrency: 3
+
+logging:
+  level:
+    com.tb: DEBUG
+    org.springframework.kafka: INFO
